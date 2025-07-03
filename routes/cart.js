@@ -1,15 +1,10 @@
 const express = require("express");
 
 const router = express.Router();
+const cartCOntroller = require("../controllers/cartController");
 
-router.get("/:userId", (req, res) => {
-  res.send(`<h1>Fetching cart for user with ID: ${req.params.userId}</h1>`);
-});
+router.get("/:userId", cartCOntroller.getCartForUser);
 
-router.post("/:userId", (req, res) => {
-  res.send(
-    `<h1>Adding product to cart for user with ID: ${req.params.userId}</h1>`
-  );
-});
+router.post("/:userId", cartCOntroller.addProductToUser);
 
 module.exports = router;
