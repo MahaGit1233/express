@@ -5,7 +5,8 @@ const getAllProducts = (req, res) => {
 };
 
 const addPRoduct = (req, res) => {
-  res.send(`<h1>Adding a new user</h1>`);
+  const data = req.body;
+  res.json({ value: data.productName });
 };
 
 module.exports = {

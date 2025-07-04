@@ -20,8 +20,10 @@ app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");
 });
 
-app.use("/api/products", productsRouter);
+app.use(express.static("public"));
+app.use(express.json());
 
+app.use("/api/products", productsRouter);
 app.use("/api/categories", categoriesRouter);
 
 app.use(/.*/, (req, res) => {
