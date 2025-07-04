@@ -20,9 +20,9 @@ app.get("/", (req, res) => {
   res.send("<h1>Home Page</h1>");
 });
 
-app.use("/products", productsRouter);
+app.use("/api/products", productsRouter);
 
-app.use("/categories", categoriesRouter);
+app.use("/api/categories", categoriesRouter);
 
 app.use(/.*/, (req, res) => {
   res.status(404).send("<h1>404 - Page Not Found</h1>");
