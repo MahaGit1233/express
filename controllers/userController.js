@@ -55,8 +55,22 @@ const deleteEntry = (req, res) => {
   });
 };
 
+const getUsers = (req, res) => {
+  const getQuery = `SELECT * FROM Users`;
+
+  db.execute(getQuery, (err, result) => {
+    if (err) {
+      console.log(err.message);
+      res.status(500).send(err.message);
+    }
+
+    res.status(200).send(result);
+  });
+};
+
 module.exports = {
   addEntry,
   updateEntry,
   deleteEntry,
+  getUsers,
 };
