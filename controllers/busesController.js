@@ -1,37 +1,40 @@
 const db = require("../utils/db-connection");
+const Buses = require("../models/Buses");
+const { Op } = require("sequelize");
 
-const addBus = (req, res) => {
-  const { busNumber, totalSeats, availableSeats } = req.body;
-  const insertQuery = `INSERT INTO Buses (busNumber,totalSeats,availableSeats) VALUES(?,?,?)`;
+const addBus = async (req, res) => {
+  try {
+    const { busNumber, totalSeats, availableSeats } = req.body;
+    const bus = await Buses.create({
+      busNumber: busNumber,
+      totalSeats: totalSeats,
+      availableSeats: availableSeats,
+    });
 
-  db.execute(insertQuery, [busNumber, totalSeats, availableSeats], (err) => {
-    if (err) {
-      console.log(err.message);
-      res.status(500).send(err.message);
-      return;
-    }
-
-    console.log("Bus has been inserted");
-    res.status(200).send(`Bus with the number ${busNumber} successfully added`);
-  });
+    res.status(201).send(`Bus with the number ${busNumber} is created`);
+  } catch (error) {
+    res.status(500).send("Unable to make an entry");
+  }
 };
 
-const getBusById = (req, res) => {
-  const { seat } = req.params;
-  const getQueryById = `SELECT * FROM Buses WHERE availableSeats>=?`;
+const getBusById = async (req, res) => {
+  try {
+    const { seat } = req.params;
+    const bus = await Buses.findAll({
+      where: {
+        availableSeats: {
+          [Op.gte]: seat,
+        },
+      },
+    });
 
-  db.execute(getQueryById, [seat], (err, result) => {
-    if (err) {
-      console.log(err.message);
-      res.status(500).send(err.message);
+    if (bus.length === 0) {
+      return res.status(404).send("No buses not found");
     }
-
-    if (result.length === 0) {
-      res.status(404).send("No buses found with that many seats available");
-    }
-
-    res.status(200).send(result);
-  });
+    res.status(200).send(bus);
+  } catch (error) {
+    res.status(500).send(`Error fetching the buses with seats available`);
+  }
 };
 
 module.exports = {
