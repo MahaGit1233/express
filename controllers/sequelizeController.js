@@ -1,5 +1,6 @@
 const db = require("../utils/sequelize-db-connection");
 const seqTable = require("../models/seqTable");
+const department = require("../models/department");
 
 const addSequelizeEntry = async (req, res) => {
   try {
@@ -73,10 +74,24 @@ const deleteSequelizeEntry = async (req, res) => {
   }
 };
 
+const addingValuesToseqTableAndDepartment = async (req, res) => {
+  try {
+    const dept = await department.create(req.body.dept);
+    const sequel = await seqTable.create({
+      ...req.body.seqTable,
+      departmentId: dept.id,
+    });
+    res.status(201).json({ dept, sequel });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   addSequelizeEntry,
   updateSequelizeEntry,
   deleteSequelizeEntry,
   getSequelizeEntry,
   getSequelizeEntryById,
+  addingValuesToseqTableAndDepartment,
 };

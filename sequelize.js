@@ -4,6 +4,8 @@ const db = require("./utils/sequelize-db-connection");
 const sequelizeRouter = require("./routes/sequelizeRoute");
 
 const sequelizeModel = require("./models/seqTable");
+const departmentModel = require("./models/department");
+const indexModel = require("./models/index");
 
 app.use(express.json());
 

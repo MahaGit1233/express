@@ -8,4 +8,9 @@ router.get("/:id", sequelizeController.getSequelizeEntryById);
 router.put("/update/:id", sequelizeController.updateSequelizeEntry);
 router.delete("/delete/:id", sequelizeController.deleteSequelizeEntry);
 
+router.post(
+  "/sequelDepartment",
+  sequelizeController.addingValuesToseqTableAndDepartment
+);
+
 module.exports = router;
