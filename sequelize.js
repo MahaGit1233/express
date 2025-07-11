@@ -2,10 +2,13 @@ const express = require("express");
 const app = express();
 const db = require("./utils/sequelize-db-connection");
 const sequelizeRouter = require("./routes/sequelizeRoute");
+const courseRouter = require("./routes/courseRouter");
 
 const sequelizeModel = require("./models/seqTable");
 const departmentModel = require("./models/department");
 const indexModel = require("./models/index");
+const courseModel = require("./models/Courses");
+const seqCoursesModel = require("./models/seqCourses");
 
 app.use(express.json());
 
@@ -14,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/sequelize", sequelizeRouter);
+app.use("/courses", courseRouter);
 
 db.sync({ force: true })
   .then(() => {
